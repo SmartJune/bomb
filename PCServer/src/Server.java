@@ -1,8 +1,10 @@
 import java.io.*;
 import java.net.*;
 
-public class Server {
-	public Server() {
+import com.example.data.DataObject;
+
+public class Server extends Thread{
+	public void run() {
 		Data data = new Data();
 		DataObject dao = new DataObject();
 	    ServerSocket serverSocket = null;  
@@ -14,10 +16,11 @@ public class Server {
 	        	System.out.println("连接客户端");  
 	        	ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
 	        	for(int i=0;i<data.js.length;i++){
+	        	//	ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
 	        		dao.setUrl(data.url[i]);
 	        		dao.setJs(data.js[i]);
 	        		oos.writeObject(dao);
-	        		System.out.println("发送了"+dao.getUrl()+"网站的信息");
+	        		System.out.println("发送了"+dao.getUrl()+"网站的信息");        		
 	        	}
 	        }
 	    } catch (IOException e) {  
@@ -25,6 +28,6 @@ public class Server {
 	    }
 	}
 	public static void main(String[] args) {
-		new Server();
+		new Server().start();
 	}
 }
